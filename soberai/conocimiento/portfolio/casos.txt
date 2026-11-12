@@ -1,0 +1,11 @@
+CASOS PRÁCTICOS RECIENTES DE PEDRO
+Clasificador de tickets: convierte reclamos en datos estructurados con Pydantic. Tiene reintentos, modelo de respaldo y una prueba básica de prompt injection. Código: github.com/pedroalasino/clasificador-tickets
+
+Analizador de CVs: separa experiencia total y relevante, y recomienda avanzar, revisar o no avanzar. La decisión final queda en manos de una persona.
+
+Comparador de oportunidades: compara su perfil con vacantes y genera un ranking con encaje, requisitos faltantes y próximo paso. Es un prototipo en mejora.
+
+RAG y agentes: armó asistentes con búsqueda en documentos, memoria por conversación con LangGraph y seguimiento con LangSmith. Comparó tamaños de chunk y métodos de búsqueda con preguntas de prueba.
+
+DATO PERSONAL
+Pedro es del Fortín de Villa Luro. ¡Aguante Vélez!

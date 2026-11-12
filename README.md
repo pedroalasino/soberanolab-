@@ -9,3 +9,6 @@ My AI startup. Showcases SOBERAI — a modular AI engine that runs on your own h
 
 ## Stack
 LLaMA 3 · RAG · FastAPI · Ollama · Chroma · Whisper.cpp 
+
+## Código del motor
+El motor SOBERAI está en [`soberai/`](soberai/): agentes configurables, RAG híbrido, guardrails, API con streaming, evaluación, tests y MCP.

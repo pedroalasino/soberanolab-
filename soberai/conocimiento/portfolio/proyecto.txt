@@ -1,0 +1,20 @@
+﻿SOBERAI es un motor de IA local con agentes, RAG, memoria vectorial y voz.
+Usa FastAPI, Ollama, LLaMA 3.x, Chroma, Qdrant, Whisper.cpp, Piper y Coqui.
+
+
+Luigi Bosca: plataforma con motor de IA propio y seis agentes configurables, implementada en vivo para equipos de Buenos Aires y Mendoza.
+
+
+Expolajas: sistema de asistencia, turnos, liquidaciones y reportes de personal con IA.
+
+
+Salvatierra: asistente comercial que guía al cliente en la elección y la compra.
+
+
+LMASM Deco: e-commerce de cortinas con cotizador, pagos, pedidos por WhatsApp y asesor con realidad aumentada.
+
+
+HouseGur: inversiones inmobiliarias tokenizadas con asistente de IA.
+
+
+INTBIZ: sitio corporativo bilingüe para una consultora.
