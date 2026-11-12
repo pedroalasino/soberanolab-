@@ -1,0 +1,6 @@
+__pycache__/
+.pytest_cache/
+logs/
+motor.log
+*.db
+.env

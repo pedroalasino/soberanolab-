@@ -1,0 +1,6 @@
+﻿Lenguajes: Python, JavaScript, TypeScript, SQL, HTML y CSS.
+IA: LangChain, OpenAI, LLaMA, Ollama, Pydantic, RAG, MCP, agentes y multiagente.
+Backend: FastAPI, Node.js, Express, APIs REST, webhooks, Zod, OpenAPI y autenticación.
+Datos: PostgreSQL, MySQL, MongoDB, Firebase, FAISS, Chroma y Qdrant.
+Frontend: React, Next.js, Vite, Tailwind, Spline y 8th Wall.
+Deploy: Git, GitHub, Vercel, Railway, AWS Amplify y Netlify.
