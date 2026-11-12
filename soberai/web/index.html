@@ -73,7 +73,7 @@
   </div>
 
   <div class="esfera" id="esfera"><img src="/web/logo.png" alt="SoberanoLab"></div>
-  <p class="ayuda" id="ayuda">Preguntá lo que quieras</p>
+  <p class="ayuda" id="ayuda">Escribile lo que quieras</p>
 
   <div class="charla" id="charla" aria-live="polite"></div>
 
@@ -90,10 +90,6 @@
 </main>
 
 <script>
-const SALUDOS = {
-  soberanolab: "Hola, soy el asistente de SoberanoLab. Preguntame qué es SOBERAI o qué proyectos hicimos.",
-  portfolio: "Hola, soy el agente de Pedro. Preguntame por su experiencia, sus proyectos o su stack.",
-};
 const charla = document.getElementById("charla"), form = document.getElementById("form");
 const entrada = document.getElementById("entrada"), enviar = document.getElementById("enviar");
 const esfera = document.getElementById("esfera"), punto = document.getElementById("punto");
@@ -111,7 +107,7 @@ function agregar(clase, texto) {
 function elegir(nombre) {
   agente = nombre; sesion = nuevaSesion(); charla.innerHTML = "";
   document.querySelectorAll(".agentes button").forEach(b => b.setAttribute("aria-pressed", b.dataset.agente === nombre));
-  agregar("agente", SALUDOS[nombre]);
+  document.getElementById("entrada").focus();
 }
 document.querySelectorAll(".agentes button").forEach(b => b.addEventListener("click", () => elegir(b.dataset.agente)));
 

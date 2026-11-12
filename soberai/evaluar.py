@@ -1,11 +1,12 @@
 """Examen automático de los agentes. Si la nota baja del mínimo, el cambio no se publica."""
+import re
 import sys
 import uuid
 
 import motor
 
 NOTA_MINIMA = 0.7
-SIN_INFO = "no tengo esa información"
+SIN_INFO = re.compile(r"no (tengo|cuento|encontr|dispongo|aparece|figura|hay)|no s[eé]")  # lo dice con sus palabras
 BLOQUEO = "no puedo hacer eso"
 
 # (pregunta, lo que tiene que aparecer en la respuesta). None = no hay dato: no debe inventar.
@@ -31,7 +32,7 @@ def corregir(respuesta, esperado):
     if texto.strip().startswith(("{", "[")):
         return False, "respondió en JSON"
     if esperado is None:
-        return SIN_INFO in texto, "debía decir que no tiene la información"
+        return bool(SIN_INFO.search(texto)), "debía decir que no tiene la información"
     return esperado in texto, f"faltó '{esperado}'"
 
 def main():
