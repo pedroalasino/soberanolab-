@@ -20,6 +20,8 @@ Sobre el motor corren agentes configurables; cada uno tiene su ficha, sus docume
 | Evaluación | `evaluar.py` | Examen automático por agente; si baja la nota, no se publica |
 | Tests | `test_soberai.py` | 18 pruebas de las reglas fijas, sin IA |
 | MCP | `servidor_mcp.py` | Expone el motor con herramientas de solo lectura |
+| Docker | `Dockerfile` | El motor entero en una caja, corriendo con un usuario sin permisos de administrador |
+| CI | `.github/workflows/soberai.yml` | GitHub corre los tests en cada cambio |
 
 ## Cómo correrlo
 
@@ -31,6 +33,13 @@ uvicorn api:app --port 8001      # página en http://localhost:8001
 python -m pytest -v              # tests sin IA
 python evaluar.py                # examen de los agentes (usa el modelo)
 python probar_mcp.py             # prueba del servidor MCP
+```
+
+Con Docker (Ollama queda afuera, en la máquina):
+
+```bash
+docker build -t soberai .
+docker run --rm -p 8001:8001 soberai
 ```
 
 Para clientes con clave propia: `SOBERAI_CLIENTES='{"clave-larga": ["portfolio"]}'`.
