@@ -1,5 +1,6 @@
 import json
 import os
+import re
 import secrets
 import time
 from collections import defaultdict, deque
@@ -93,9 +94,12 @@ PUBLICOS = os.getenv("SOBERAI_PUBLICOS", ",".join(motor.FICHAS)).split(",")
 def pagina():
     return FileResponse(WEB / "index.html")
 
-@app.get("/web/logo.png")
-def logo():
-    return FileResponse(WEB / "logo.png")
+@app.get("/web/{archivo}")
+def archivo_web(archivo: str):
+    # Solo archivos de la carpeta web, con nombre simple: nada de "../" para salir de la carpeta
+    if not re.fullmatch(r"[A-Za-z0-9_-]+\.(png|jpg|jpeg|webp|svg)", archivo) or not (WEB / archivo).is_file():
+        raise HTTPException(404, "No existe.")
+    return FileResponse(WEB / archivo)
 
 @app.post("/publico/chat/{agente}/stream")
 def chat_publico(agente: str, pedido: Pedido, request: Request):

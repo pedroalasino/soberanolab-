@@ -6,148 +6,178 @@
 <title>SOBERAI · SoberanoLab</title>
 <style>
   :root {
-    --fondo: #ecebe8; --tarjeta: #f7f6f3; --texto: #1d1d1b; --suave: #8a8984;
-    --borde: #e2e0db; --campo: #ffffff; --negro: #111110; --verde: #2fbf71;
+    --texto: #f2f1ee; --suave: #a3a19b; --vidrio: rgba(18, 19, 22, .45); --panel: rgba(12, 13, 16, .42);
+    --borde: rgba(255, 255, 255, .10); --campo: rgba(255, 255, 255, .05); --blanco: #f4f3f0;
+    --verde: #2fbf71; --rojo: #e5484d;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; overflow-x: hidden; }
   body {
-    min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 16px;
-    background: var(--fondo); color: var(--texto);
+    background: #0c0d0f; color: var(--texto); overflow-x: hidden;
     font: 16px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
-  .tarjeta {
-    width: 100%; max-width: 380px; background: var(--tarjeta); border-radius: 22px;
-    padding: 18px 18px 16px; box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 12px 40px rgba(0,0,0,.08);
-    display: flex; flex-direction: column; gap: 14px;
+
+  /* Fondo: anillos finos con luz suave, con parallax */
+  .fondo { position: fixed; inset: 0; z-index: -1; overflow: hidden; background: #050505; }
+  .capa { position: absolute; inset: -6%; will-change: transform; transition: transform .3s ease-out;
+    background: #050505 url("/web/fondo.jpg") center / cover no-repeat; }
+  @media (max-aspect-ratio: 3/4) { .capa { background-image: url("/web/fondo-movil.jpg"); } }
+
+  .pagina { width: 100%; max-width: 1080px; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; gap: 18px; min-height: 100%; }
+
+  .barra {
+    display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; height: 76px; padding: 0 18px;
+    background: var(--vidrio); border: 1px solid var(--borde); border-radius: 22px;
+    backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2);
   }
-  .cabeza { display: flex; align-items: center; justify-content: space-between; }
-  .titulo { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 17px; }
-  .punto { width: 9px; height: 9px; border-radius: 50%; background: var(--verde); box-shadow: 0 0 0 3px rgba(47,191,113,.18); }
-  .punto.apagado { background: #c9c7c1; box-shadow: none; }
-  .agentes { display: flex; gap: 4px; background: #ebe9e4; border-radius: 999px; padding: 3px; }
-  .agentes button {
-    border: 0; background: transparent; color: var(--suave); font: inherit; font-size: 13px;
-    padding: 4px 10px; border-radius: 999px; cursor: pointer;
-  }
-  .agentes button[aria-pressed="true"] { background: var(--campo); color: var(--texto); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
-  .esfera {
-    width: 132px; height: 132px; margin: 6px auto 0; border-radius: 50%; display: grid; place-items: center;
+  .menu { width: 28px; height: 28px; display: grid; grid-template-columns: repeat(2, 8px); gap: 5px; align-content: center; background: none; border: 0; cursor: pointer; }
+  .menu span { width: 8px; height: 8px; border-radius: 50%; background: var(--blanco); }
+  .logo { justify-self: center; display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--blanco); }
+  .logo img { height: 54px; filter: invert(1); }
+  .estado { justify-self: end; width: 10px; height: 10px; border-radius: 50%; background: var(--verde); box-shadow: 0 0 0 4px rgba(47,191,113,.16); }
+  .estado.apagado { background: var(--rojo); box-shadow: 0 0 0 4px rgba(229,72,77,.16); }
+
+  .cabecera { text-align: center; padding: 6px 12px 0; }
+  .cabecera h1 { font-size: clamp(24px, 3.2vw, 32px); font-weight: 700; letter-spacing: -.01em; text-shadow: 0 2px 18px rgba(0,0,0,.55); }
+  .cabecera p { color: #d6d4cf; font-size: 14.5px; margin-top: 4px; text-shadow: 0 1px 12px rgba(0,0,0,.6); }
+
+  .marco { width: 100%; max-width: 560px; margin: 0 auto; flex: 1; min-height: 500px; max-height: 680px; padding: 10px; background: var(--vidrio); border: 1px solid var(--borde); border-radius: 26px;
+    display: flex; }
+  .panel { flex: 1; min-width: 0; background: var(--panel); border-radius: 18px;
+    backdrop-filter: blur(26px) saturate(1.15); -webkit-backdrop-filter: blur(26px) saturate(1.15); display: flex; flex-direction: column; align-items: center; padding: 28px 18px 18px; gap: 16px; }
+
+  .agentes { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .agentes button { font: inherit; font-size: 14px; color: var(--texto); background: transparent; border: 1px solid var(--borde);
+    padding: 7px 14px; border-radius: 999px; cursor: pointer; }
+  .agentes button[aria-pressed="true"] { background: var(--blanco); color: #111; border-color: var(--blanco); }
+
+  .esfera { width: 116px; height: 116px; border-radius: 50%; display: grid; place-items: center; flex: none;
     background: radial-gradient(circle at 32% 26%, #fafafa 0%, #9c9c9c 9%, #3a3a3a 32%, #111 62%, #000 100%);
-    box-shadow: 0 18px 30px -12px rgba(0,0,0,.45);
-    transition: transform .4s ease;
-  }
-  .esfera img { width: 70%; filter: invert(1) drop-shadow(0 1px 2px rgba(0,0,0,.6)); opacity: .92; }
+    box-shadow: 0 18px 40px -14px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.06); }
+  .esfera img { width: 68%; filter: invert(1) drop-shadow(0 1px 2px rgba(0,0,0,.6)); opacity: .92; }
   .esfera.pensando { animation: latido 1.4s ease-in-out infinite; }
-  @keyframes latido { 50% { transform: scale(1.04); } }
-  .ayuda { text-align: center; color: var(--suave); font-size: 14px; }
-  .charla { display: flex; flex-direction: column; gap: 10px; max-height: 260px; overflow-y: auto; padding-right: 2px; }
+  @keyframes latido { 50% { transform: scale(1.05); } }
+
+  .charla { width: 100%; flex: 1; min-height: 120px; max-height: 340px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+  .vacio { margin: auto; text-align: center; color: var(--suave); font-size: 14.5px; }
+  .vacio strong { display: block; color: var(--texto); font-size: 17px; margin-bottom: 4px; }
   .msj { font-size: 15.5px; }
-  .msj.usuario { align-self: flex-end; background: #e7e5e0; border-radius: 16px 16px 4px 16px; padding: 8px 12px; max-width: 85%; }
-  .msj.agente { align-self: flex-start; max-width: 95%; }
-  .msj.error { color: #a33; }
-  form {
-    display: flex; align-items: center; gap: 6px; background: var(--campo); border: 1px solid var(--borde);
-    border-radius: 999px; padding: 6px 6px 6px 16px;
-  }
-  form input { flex: 1; border: 0; outline: 0; background: transparent; font: inherit; font-size: 15.5px; color: var(--texto); min-width: 0; }
-  form input::placeholder { color: #aaa9a4; }
-  .icono { border: 0; background: transparent; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; color: var(--suave); }
-  .icono:disabled { cursor: not-allowed; opacity: .5; }
-  .enviar { background: var(--negro); color: #fff; }
+  .msj.usuario { align-self: flex-end; background: rgba(255,255,255,.10); border-radius: 16px 16px 4px 16px; padding: 8px 12px; max-width: 85%; }
+  .msj.agente { align-self: flex-start; max-width: 92%; }
+  .msj.error { color: #ff8d8d; }
+
+  form { width: 100%; display: flex; align-items: center; gap: 6px; background: var(--campo);
+    border: 1px solid var(--borde); border-radius: 999px; padding: 6px 6px 6px 18px; }
+  form:focus-within { border-color: rgba(255,255,255,.28); }
+  form input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--texto); font: inherit; font-size: 15.5px; }
+  form input::placeholder { color: #8f8d87; }
+  .icono { width: 38px; height: 38px; border-radius: 50%; border: 0; display: grid; place-items: center; cursor: pointer; background: transparent; color: var(--suave); }
+  .icono:disabled { cursor: not-allowed; opacity: .45; }
+  .enviar { background: var(--blanco); color: #111; }
   .enviar:disabled { opacity: .35; }
-  button:focus-visible { outline: 2px solid var(--negro); outline-offset: 2px; }
-  form input:focus-visible { outline: none; }
-  form:focus-within { border-color: #b9b7b1; box-shadow: 0 0 0 3px rgba(0,0,0,.05); }
-  .pie { text-align: center; font-size: 12px; color: var(--suave); }
-  @media (prefers-reduced-motion: reduce) { .esfera.pensando { animation: none; } }
+  button:focus-visible { outline: 2px solid var(--blanco); outline-offset: 2px; }
+
+  .pie { text-align: center; font-size: 12px; color: var(--suave); padding-bottom: 6px; }
+  @media (max-width: 600px) { .barra { height: 64px; } .logo img { height: 42px; } .marco { min-height: 480px; padding: 8px; } }
+  @media (prefers-reduced-motion: reduce) { .esfera.pensando { animation: none; } .capa { transition: none; } }
 </style>
 </head>
 <body>
-<main class="tarjeta" aria-label="Asistente SOBERAI">
-  <div class="cabeza">
-    <div class="titulo"><span class="punto" id="punto"></span><span id="nombre">SOBERAI</span></div>
-    <div class="agentes" role="group" aria-label="Elegí el asistente">
-      <button type="button" data-agente="soberanolab" aria-pressed="true">SoberanoLab</button>
-      <button type="button" data-agente="portfolio" aria-pressed="false">Pedro</button>
+<div class="fondo" aria-hidden="true"><div class="capa" data-vel="1"></div></div>
+</div>
+
+<div class="pagina">
+  <header class="barra">
+    <button class="menu" type="button" aria-label="Menú"><span></span><span></span><span></span><span></span></button>
+    <a class="logo" href="/" aria-label="SoberanoLab"><img src="/web/logo.png" alt="SoberanoLab"></a>
+    <span class="estado" id="estado" title="Motor en línea"></span>
+  </header>
+
+  <main class="marco">
+    <div class="panel">
+      <div class="agentes" role="group" aria-label="Elegí el asistente">
+        <button type="button" data-agente="soberanolab" aria-pressed="true">SoberanoLab</button>
+        <button type="button" data-agente="portfolio" aria-pressed="false">Pedro Alasino</button>
+      </div>
+
+      <div class="esfera" id="esfera"><img src="/web/logo.png" alt=""></div>
+
+      <div class="charla" id="charla" aria-live="polite">
+        <p class="vacio" id="vacio"><strong>¿Qué querés saber?</strong>Escribile lo que quieras al asistente.</p>
+      </div>
+
+      <form id="form">
+        <input id="entrada" maxlength="500" autocomplete="off" placeholder="Escribí tu pregunta…" aria-label="Tu pregunta">
+        <button type="button" class="icono" disabled title="Voz local con Whisper.cpp: próximamente" aria-label="Micrófono (próximamente)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
+        </button>
+        <button type="submit" class="icono enviar" id="enviar" aria-label="Enviar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+        </button>
+      </form>
     </div>
-  </div>
+  </main>
 
-  <div class="esfera" id="esfera"><img src="/web/logo.png" alt="SoberanoLab"></div>
-  <p class="ayuda" id="ayuda">Escribile lo que quieras</p>
-
-  <div class="charla" id="charla" aria-live="polite"></div>
-
-  <form id="form">
-    <input id="entrada" maxlength="500" autocomplete="off" placeholder="Escribí tu pregunta…" aria-label="Tu pregunta">
-    <button type="button" class="icono" disabled title="Voz local con Whisper.cpp: próximamente" aria-label="Micrófono (próximamente)">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
-    </button>
-    <button type="submit" class="icono enviar" id="enviar" aria-label="Enviar">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-    </button>
-  </form>
-  <p class="pie">Corre en infraestructura propia de SoberanoLab · sin servicios de terceros</p>
-</main>
+  <p class="pie">Motor SOBERAI · infraestructura propia de SoberanoLab</p>
+</div>
 
 <script>
 const charla = document.getElementById("charla"), form = document.getElementById("form");
 const entrada = document.getElementById("entrada"), enviar = document.getElementById("enviar");
-const esfera = document.getElementById("esfera"), punto = document.getElementById("punto");
-let agente = "soberanolab";
+const esfera = document.getElementById("esfera");
+let agente = "soberanolab", sesion = nuevaSesion();
 
 function nuevaSesion() { return "web-" + Math.random().toString(36).slice(2, 12); }
-let sesion = nuevaSesion();
-
+function vaciar() { charla.innerHTML = '<p class="vacio"><strong>¿Qué querés saber?</strong>Escribile lo que quieras al asistente.</p>'; }
 function agregar(clase, texto) {
-  const p = document.createElement("p");
-  p.className = "msj " + clase; p.textContent = texto;
-  charla.appendChild(p); charla.scrollTop = charla.scrollHeight;
-  return p;
+  charla.querySelector(".vacio")?.remove();
+  const p = document.createElement("p"); p.className = "msj " + clase; p.textContent = texto;
+  charla.appendChild(p); charla.scrollTop = charla.scrollHeight; return p;
 }
-function elegir(nombre) {
-  agente = nombre; sesion = nuevaSesion(); charla.innerHTML = "";
-  document.querySelectorAll(".agentes button").forEach(b => b.setAttribute("aria-pressed", b.dataset.agente === nombre));
-  document.getElementById("entrada").focus();
-}
-document.querySelectorAll(".agentes button").forEach(b => b.addEventListener("click", () => elegir(b.dataset.agente)));
+document.querySelectorAll(".agentes button").forEach(b => b.addEventListener("click", () => {
+  agente = b.dataset.agente; sesion = nuevaSesion(); vaciar();
+  document.querySelectorAll(".agentes button").forEach(x => x.setAttribute("aria-pressed", x === b));
+  entrada.focus();
+}));
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const mensaje = entrada.value.trim();
-  if (!mensaje) return;
+  const mensaje = entrada.value.trim(); if (!mensaje) return;
   agregar("usuario", mensaje); entrada.value = "";
   enviar.disabled = true; esfera.classList.add("pensando");
   const salida = agregar("agente", "…");
   try {
-    const r = await fetch(`/publico/chat/${agente}/stream`, {
-      method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sesion, mensaje }),
-    });
+    const r = await fetch(`/publico/chat/${agente}/stream`, { method: "POST",
+      headers: { "Content-Type": "application/json" }, body: JSON.stringify({ sesion, mensaje }) });
     if (r.status === 429) throw new Error("Hiciste muchas preguntas seguidas. Esperá un minuto.");
     if (!r.ok) throw new Error("No pude responder ahora. Probá de nuevo en un rato.");
-    const lector = r.body.getReader(), dec = new TextDecoder();
-    let buffer = "", texto = "";
+    const lector = r.body.getReader(), dec = new TextDecoder(); let buffer = "", texto = "";
     while (true) {
-      const { value, done } = await lector.read();
-      if (done) break;
+      const { value, done } = await lector.read(); if (done) break;
       buffer += dec.decode(value, { stream: true });
       const partes = buffer.split("\n\n"); buffer = partes.pop();
       for (const parte of partes) {
-        const dato = parte.replace(/^data: /, "");
-        if (dato === "[FIN]") continue;
-        texto += JSON.parse(dato).texto; salida.textContent = texto;
-        charla.scrollTop = charla.scrollHeight;
+        const dato = parte.replace(/^data: /, ""); if (dato === "[FIN]") continue;
+        texto += JSON.parse(dato).texto; salida.textContent = texto; charla.scrollTop = charla.scrollHeight;
       }
     }
-  } catch (err) {
-    salida.className = "msj agente error"; salida.textContent = err.message;
-  } finally {
-    enviar.disabled = false; esfera.classList.remove("pensando"); entrada.focus();
-  }
+  } catch (err) { salida.className = "msj agente error"; salida.textContent = err.message; }
+  finally { enviar.disabled = false; esfera.classList.remove("pensando"); entrada.focus(); }
 });
 
-fetch("/salud").then(r => r.ok || punto.classList.add("apagado")).catch(() => punto.classList.add("apagado"));
-elegir("soberanolab");
+// Parallax: cada capa del fondo se mueve con el mouse y el scroll a su propia velocidad
+const capas = [...document.querySelectorAll(".capa")];
+if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  let mx = 0, my = 0;
+  const mover = () => capas.forEach(c => {
+    const v = parseFloat(c.dataset.vel);
+    c.style.transform = `translate3d(${mx * v}px, ${my * v - scrollY * 0.1 * v}px, 0)`;
+  });
+  addEventListener("pointermove", (e) => { mx = (e.clientX / innerWidth - .5) * -24; my = (e.clientY / innerHeight - .5) * -16; mover(); });
+  addEventListener("scroll", mover, { passive: true });
+}
+
+fetch("/salud").then(r => r.ok || estado.classList.add("apagado")).catch(() => estado.classList.add("apagado"));
 </script>
 </body>
 </html>
